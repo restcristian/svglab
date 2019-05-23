@@ -217,21 +217,58 @@
 			.to($h1, 0.2, { y: '+=10px', autoAlpha: 0, ease: Power4.easeInOut }, '+=2')
 			.set($h1, { y: '-=30px', text: 'fine-tune easing' })
 			// fine-tune easing
-			.add('flask05')
-			.to($liquid07, 0.6, { strokeDashoffset: 0, ease: Power0.easeNone })
-			.to($h1, 0.3, { y: '+=20px', autoAlpha: 1, ease: Power4.easeInOut })
-			.to($h1, 0.2, { y: '+=10px', autoAlpha: 0, ease: Power4.easeInOut }, '+=2')
-			.set($h1, { y: '-=30px', text: 'Master Greensock animations' })
+
+			.to($liquid07, 1.4, { strokeDashoffset: 0, ease: Power0.easeNone })
+
 			// Master GreenSock animations
+			.to($liquid08, 1.5, { strokeDashoffset: 0, ease: Power0.easeNone }, '-=0.1')
 			.add('flask06')
-			.to($liquid08, 0.5, { strokeDashoffset:0, ease:Power0.easeNone}, '-=0.1')
-			.to($liquid09, 0.6, { strokeDashoffset:0, ease:Power0.easeNone}, '-=0.1')
+
 			.to($h1, 0.3, { y: '+=20px', autoAlpha: 1, ease: Power4.easeInOut })
 			.to($h1, 0.2, { y: '+=10px', autoAlpha: 0, ease: Power4.easeInOut }, '+=2')
+			.set($h1, { y: '-=30px', text: 'master GreenSock animations' })
+
+			.to($liquid09, 0.6, { strokeDashoffset: 0, ease: Power0.easeNone }, '-=0.1')
+			.add('flask07')
+			.to($h1, 0.3, { y: '+=20px', autoAlpha: 1, ease: Power4.easeInOut })
+			.to($h1, 0.2, { y: '+=10px', autoAlpha: 0, ease: Power4.easeInOut }, '+=2')
+			.set($h1, { scale: 0.9, y: '-=30px', text: 'and most importantly' })
+
+			// and most importantly + have fun
+			.to($h1, 0.3, { y: '+=20px', autoAlpha: 1, ease: Power4.easeInOut })
+			.to($h1, 2, { scale: 1, ease: RoughEase.ease.config({ template: Power0.easeNone, strength: 2, points: 50, taper: "none", randomize: true, clamp: false }) })
+			.to($h1, 0.3, { scale: 1.1, autoAlpha: 0, ease: Power0.easeNone })
+			.set($h1, { scale: 0.9, y: '-=30px', text: 'have some fun' })
+			.to($h1, 0.3, { scale: 1, autoAlpha: 1, ease: Power4.easeInOut }, '+=0.3')
+			.to($h1, 0.2, { autoAlpha: 0, ease: Power4.easeInOut }, '+=1')
+			.set($h1, { y: '-=30px', text: 'Want to learn GreenSock from scratch?' })
+
+			.add('main-flask')
+
+			// Fill in all flask
+			.to($liquidInsideMask01, 6, { attr: { y: 415 }, ease: Power0.easeNone }, 'flask01')
+			.to($liquidInsideMask02, 8.4, { attr: { y: 451 }, ease: Power0.easeNone }, 'flask02')
+			.to($liquidInsideMask03, 5, { attr: { y: 452 }, ease: Power0.easeNone }, 'flask03')
+			.to($liquidInsideMask04, 4, { attr: { y: 602 }, ease: Power0.easeNone }, 'flask04')
+			.to($liquidInsideMask05, 3, { attr: { y: 563 }, ease: Power0.easeNone }, 'main-flask')
+			.to($liquidInsideMask06, 1.7, { attr: { y: 608 }, ease: Power0.easeNone }, 'flask06')
+			.to($liquidInsideMask07, 1.7, { attr: { y: 608 }, ease: Power0.easeNone }, 'flask07')
 			;
 
 
 		return fillTubesTL;
+	}
+
+	function getFinalTl() {
+		let finalTL = new TimelineMax();
+
+		finalTL
+			.fromTo($mainBulb, .1, { fill: '#F8AD43', immediateRender: false }, { fill: '#ffffff', yoyo: true, repeat: 3 })
+			.to($h1, 0.3, { y: '+=20px', autoAlpha: 1, ease: Power4.easeInOut })
+			.to($paper, 3, { y: 0, ease: SteppedEase.config(5) })
+
+		return finalTL;
+
 	}
 	function init() {
 		mainTL
@@ -240,8 +277,9 @@
 			.add(getIdeaTl(), 'scene-idea')
 			.add(getPart2Tl(), 'scene-part2')
 			.add(getFillTubesTl(), 'scene-fill-tubes')
+			.add(getFinalTl(), 'scene-final')
 			;
-		mainTL.seek('scene-part2');
+		mainTL.seek('scene-final-=2');
 	}
 
 	init();
