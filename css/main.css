@@ -103,6 +103,10 @@ h1,
     visibility: hidden;
 }
 
+#PaperText text{
+    font-weight: 700;
+    font-size: 18px;
+}
 
 
 

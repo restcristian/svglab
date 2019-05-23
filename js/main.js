@@ -48,6 +48,7 @@
 		$printetLightsBottom = $('#PrinterLIghtBottom, #PrinterLIghtBottom_1_'),
 		$mainLight = $('#MainLight'),
 		$paper = $('#Paper'),
+		$paperText = $('#PaperText text'),
 		$slider = $('#slider'),
 		$stage = $('#stage'),
 		$mainMask = $('#MainMask'),
@@ -262,10 +263,37 @@
 	function getFinalTl() {
 		let finalTL = new TimelineMax();
 
+		let lightsBlink = new TimelineMax({ repeat: -1, yoyo: true });
+
+		lightsBlink
+			.fromTo($printerLightsTop, 0.1, { fill: '#5AB783' }, { fill: '#f8AD43', immediateRender: false })
+			.fromTo($printetLightsBottom, 0.1, { fill: '#5AB783' }, { fill: '#f8AD43', immediateRender: false }, '+=0.2')
+			.fromTo($printerLightsTop, 0.1, { fill: '#F8AD43' }, { fill: '#F8876E', immediateRender: false }, '-=0.2')
+			.fromTo($printetLightsBottom, 0.1, { fill: '#F8AD43' }, { fill: '#F8876E', immediateRender: false }, '+=0.2')
+			.fromTo($printerLightsTop, 0.1, { fill: '#F8876E' }, { fill: '#5AB783', immediateRender: false }, '-=0.2')
+			.fromTo($printetLightsBottom, 0.1, { fill: '#F8876E' }, { fill: '#5AB783', immediateRender: false }, '+=0.2')
+			;
+
+		let hideAndSeek = new TimelineMax({ repeat: -1, repeatDelay:5 });
+
+		hideAndSeek
+			.to($paper, 0.6, { y: '+=55', ease: SteppedEase.config(10) })
+			.set($paperText, { text: 'YES SIR!' })
+			.to($paper, 0.6, { y: '-=55', ease: SteppedEase.config(10) })
+			.to($paper, 0.6, { y: '+=55', ease: SteppedEase.config(10) }, '+=5')
+			.set($paperText, { text: 'SURE MAN!!' })
+			.to($paper, 0.6, { y: '-=55', ease: SteppedEase.config(10) })
+			.to($paper, 0.6, { y: '+=55', ease: SteppedEase.config(10) }, '+=5')
+			.to($paper, 0.6, { y: '-=55', ease: SteppedEase.config(10) })
+			;
 		finalTL
 			.fromTo($mainBulb, .1, { fill: '#F8AD43', immediateRender: false }, { fill: '#ffffff', yoyo: true, repeat: 3 })
 			.to($h1, 0.3, { y: '+=20px', autoAlpha: 1, ease: Power4.easeInOut })
-			.to($paper, 3, { y: 0, ease: SteppedEase.config(5) })
+			.add(lightsBlink, '2')
+			.to($paper, 3, { y: 0, ease: SteppedEase.config(10) }, '2.5')
+			.add(hideAndSeek, '5.6')
+
+
 
 		return finalTL;
 
@@ -279,7 +307,7 @@
 			.add(getFillTubesTl(), 'scene-fill-tubes')
 			.add(getFinalTl(), 'scene-final')
 			;
-		mainTL.seek('scene-final-=2');
+		// mainTL.seek('scene-final-=2');
 	}
 
 	init();
